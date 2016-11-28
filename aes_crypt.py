@@ -1,5 +1,7 @@
 import sys
 from Crypto.Cipher import AES
+BS = 16
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS) 
 
 argc = len(sys.argv)
 print argc
@@ -12,6 +14,7 @@ iv = sys.argv[3] #initialize vector
 
 f = open(sys.argv[1], 'rb')
 binary = f.read()
+binary = pad(binary)
 cipher = AES.new(key, AES.MODE_CBC, iv)
 
 encrypted = cipher.encrypt(binary);
